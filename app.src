@@ -1,5 +1,8 @@
 ; todo: figure out how to not make this look like jquery
 
+public app
+public _appMainStart
+
 macro @ez80.word size*, @value*
 	local value, offset, rel_addr
 	value := @value
@@ -115,6 +118,7 @@ app.end:
 	private	app.data_end
 
 section .app.init
+_appMainStart:
 	call	prgm_init
 	ld	de,($D0118C)	; $asm_prgm_size
 	ld	hl,$D1A881	; userMem
@@ -122,7 +126,16 @@ section .app.init
 	or	a,a
 	sbc	hl,hl
 	ld	($D0118C),hl	; $asm_prgm_size
-	jp	$20160		; JForceCmdNoChar
+	ld hl, $D031F6  ; pixelShadow
+	ld bc, 8400 * 3
+	call $0210DC    ; MemClear
+	call $020818    ; ClrTxtShd
+	ld hl, $D006C0  ; textShadow
+	ld de, $D0232D  ; cmdShadow
+	ld bc, $104
+	ldir
+	ld a, $09		; kClear
+	jp	$20164		; JForceCmd
 prgm_init:
 
 section .fini

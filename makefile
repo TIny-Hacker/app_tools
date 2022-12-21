@@ -1,3 +1,5 @@
+PYTHON_VER := python
+
 APP_TOOLS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 INIT_LOC = 0
@@ -26,9 +28,9 @@ app: $(BINDIR)/$(TARGET8EK)
 installer: $(BINDIR)/AppInstA.8xv
 
 $(BINDIR)/$(TARGET8EK): $(BINDIR)/$(TARGETBIN) $(APP_TOOLS_DIR)/make_8ek.py
-	python3 $(APP_TOOLS_DIR)/make_8ek.py $(BINDIR)/$(TARGETBIN) $(BINDIR)/$(TARGET8EK) $(NAME)
+	$(PYTHON_VER) $(APP_TOOLS_DIR)/make_8ek.py $(BINDIR)/$(TARGETBIN) $(BINDIR)/$(TARGET8EK) $(NAME)
 
 $(BINDIR)/AppInstA.8xv: $(BINDIR)/$(TARGETBIN) $(APP_TOOLS_DIR)/installer.bin $(APP_TOOLS_DIR)/make_installer.py
-	python3 $(APP_TOOLS_DIR)/make_installer.py $(BINDIR)/$(TARGETBIN) $(BINDIR) $(NAME) $(APP_INST_NAME)
+	$(PYTHON_VER) $(APP_TOOLS_DIR)/make_installer.py $(BINDIR)/$(TARGETBIN) $(BINDIR) $(NAME) $(APP_INST_NAME)
 
 .PHONY: default installer app
