@@ -1,4 +1,4 @@
-PYTHON_VER := python
+PYTHON_VER := python	# Change to python3 depending on your OS
 
 APP_TOOLS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
@@ -14,7 +14,7 @@ TEMP := $(EXTRA_LDFLAGS)
 EXTRA_LDFLAGS = \
 	-i $(call QUOTE_ARG,provide __app_name = "$(APP_NAME)") \
 	-i $(call QUOTE_ARG,provide __app_version = "$(APP_VERSION)") \
-	-i $(call QUOTE_ARG,provide __app_desc = "$(DESCRIPTION)") \
+	-i $(call QUOTE_ARG,provide __app_desc = $(DESCRIPTION)) \
 	$(TEMP)
 
 default: installer
