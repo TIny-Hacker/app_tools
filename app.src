@@ -153,8 +153,16 @@ _appMainStart:
 	or	a,a
 	sbc	hl,hl
 	ld	($D0118C),hl	; $asm_prgm_size
-	ld a, $09		; kClear
-	jp	$20164		; JForceCmd
+	ld hl, $D031F6  ; pixelShadow
+    ld bc, 8400 * 3
+    call $0210DC    ; MemClear
+    call $020818    ; ClrTxtShd
+    ld hl, $D006C0  ; textShadow
+    ld de, $D0232D  ; cmdShadow
+    ld bc, $104
+    ldir
+    ld a, $09        ; kClear
+    jp    $20164        ; JForceCmd
 prgm_init:
 
 section .fini
