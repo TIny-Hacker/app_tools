@@ -52,7 +52,7 @@ app:
 	dl	.code - .header_start
 	dl	.data - .header_start
 	dl	.data_end - .data
-	dl	.code - .header_start ; entry point
+	dl	.code - .header_start + icon_length ; entry point
 	dl	0
 	dl	0 ; todo: library table
 	dl	.info_string - .header_start
@@ -146,23 +146,44 @@ app.end:
 
 section .app.init
 _appMainStart:
+	db	$01 ; icon byte
+___icon:
+	db	$10, $10
+	db	$FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+	db	$FF, $FF, $FF, $FF, $4A, $00, $00, $00, $00, $00, $00, $4A, $FF, $FF, $FF, $FF
+	db	$FF, $FF, $4A, $00, $00, $B5, $B5, $4A, $4A, $B5, $B5, $00, $00, $4A, $FF, $FF
+	db	$FF, $4A, $00, $B5, $00, $B5, $B5, $4A, $4A, $B5, $B5, $00, $B5, $00, $4A, $FF
+	db	$FF, $00, $B5, $B5, $4A, $00, $B5, $B5, $B5, $B5, $00, $4A, $B5, $B5, $00, $FF
+	db	$4A, $00, $B5, $B5, $B5, $4A, $B5, $B5, $B5, $B5, $4A, $B5, $B5, $B5, $00, $4A
+	db	$00, $4A, $00, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $00, $4A, $00
+	db	$00, $B5, $4A, $00, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $00, $4A, $B5, $00
+	db	$00, $B5, $B5, $4A, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $4A, $B5, $B5, $00
+	db	$00, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $00
+	db	$4A, $00, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $00, $4A
+	db	$FF, $4A, $00, $00, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $B5, $00, $00, $4A, $FF
+	db	$FF, $FF, $FF, $4A, $00, $00, $B5, $B5, $B5, $B5, $00, $00, $4A, $FF, $FF, $FF
+	db	$FF, $FF, $FF, $FF, $00, $4A, $00, $B5, $B5, $00, $4A, $00, $FF, $FF, $FF, $FF
+	db	$FF, $FF, $FF, $FF, $4A, $00, $00, $00, $00, $00, $00, $4A, $FF, $FF, $FF, $FF
+	db	$FF, $FF, $FF, $FF, $FF, $FF, $FF, $4A, $4A, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+icon_length := $ - _appMainStart
+	; actual app start
 	call	prgm_init
 	ld	de,($D0118C)	; $asm_prgm_size
 	ld	hl,$D1A881	; userMem
-	call	$20590		; DelMem
+	call	$20590	; DelMem
 	or	a,a
 	sbc	hl,hl
 	ld	($D0118C),hl	; $asm_prgm_size
-	ld hl, $D031F6  ; pixelShadow
-    ld bc, 8400 * 3
-    call $0210DC    ; MemClear
-    call $020818    ; ClrTxtShd
-    ld hl, $D006C0  ; textShadow
-    ld de, $D0232D  ; cmdShadow
-    ld bc, $104
-    ldir
-    ld a, $09        ; kClear
-    jp    $20164        ; JForceCmd
+	ld	hl,$D031F6	; pixelShadow
+	ld	bc,8400 * 3
+	call	$0210DC	; MemClear
+	call	$020818	; ClrTxtShd
+	ld	hl,$D006C0	; textShadow
+	ld	de,$D0232D	; cmdShadow
+	ld	bc,$104
+	ldir
+	ld	a,$09	; kClear
+	jp	$20164	; JForceCmd
 prgm_init:
 
 section .fini
