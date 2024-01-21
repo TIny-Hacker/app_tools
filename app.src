@@ -171,6 +171,13 @@ ___icon:
 	db	$FF, $FF, $FF, $FF, $FF, $FF, $FF, $4A, $4A, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 icon_length := $ - _appMainStart
 	; actual app start
+	ld	a,$40	; kQuit
+	call	$0208BC	; PullDownChk
+	ld	a,$40	; kQuit
+	call	$020170	; NewContext0
+	call	$020178	; PPutAway
+	ld	a,$58	; kExtApps
+	ld	($D007E0),a	; cxCurApp
 	call	prgm_init
 	ld	de,($D0118C)	; $asm_prgm_size
 	ld	hl,$D1A881	; userMem
