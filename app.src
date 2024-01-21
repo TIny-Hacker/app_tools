@@ -172,8 +172,6 @@ ___icon:
 icon_length := $ - _appMainStart
 	; actual app start
 	ld	a,$40	; kQuit
-	call	$0208BC	; PullDownChk
-	ld	a,$40	; kQuit
 	call	$020170	; NewContext0
 	call	$020178	; PPutAway
 	ld	a,$58	; kExtApps
