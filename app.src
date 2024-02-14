@@ -176,6 +176,10 @@ icon_length := $ - _appMainStart
 	call	$020178	; PPutAway
 	ld	a,$58	; kExtApps
 	ld	($D007E0),a	; cxCurApp
+	call	$021DC4 ; ReloadAppEntryVecs
+	call	$021148 ; AppSetup
+	ld	a,$51
+	ld	(iy + $28),a
 	call	prgm_init
 	ld	de,($D0118C)	; $asm_prgm_size
 	ld	hl,$D1A881	; userMem
