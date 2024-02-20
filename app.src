@@ -173,6 +173,7 @@ icon_length := $ - _appMainStart
 	; actual app start
 	ld	a,$40	; kQuit
 	call	$020170	; NewContext0
+	call	$020D3C ; BufClear
 	call	$020178	; PPutAway
 	ld	a,$58	; kExtApps
 	ld	($D007E0),a	; cxCurApp
