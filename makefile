@@ -9,13 +9,13 @@ OUTPUT_MAP = NO
 APP_SRC_FILE = $(APP_TOOLS_DIR)/app.src
 
 DEPS := $(APP_SRC_FILE) $(APP_TOOLS_DIR)/makefile $(DEPS)
-TEMP := $(EXTRA_LDFLAGS)
+# TEMP := $(EXTRA_LDFLAGS)
 
-EXTRA_LDFLAGS = \
+EXTRA_LDFLAGS += \
 	-i $(call QUOTE_ARG,provide __app_name = "$(APP_NAME)") \
 	-i $(call QUOTE_ARG,provide __app_version = "$(APP_VERSION)") \
-	-i $(call QUOTE_ARG,provide __app_desc = $(DESCRIPTION)) \
-	$(TEMP)
+	-i $(call QUOTE_ARG,provide __app_desc = $(DESCRIPTION))
+# $(TEMP)
 
 default: installer
 
