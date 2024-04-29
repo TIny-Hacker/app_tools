@@ -1,6 +1,6 @@
 PYTHON_VER := python	# Change to python3 depending on your OS
 
-APP_TOOLS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+APP_TOOLS_DIR := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 
 INIT_LOC = 0
 LINKER_SCRIPT = $(APP_TOOLS_DIR)/linker_script
@@ -9,13 +9,11 @@ OUTPUT_MAP = NO
 APP_SRC_FILE = $(APP_TOOLS_DIR)/app.src
 
 DEPS := $(APP_SRC_FILE) $(APP_TOOLS_DIR)/makefile $(DEPS)
-# TEMP := $(EXTRA_LDFLAGS)
 
 EXTRA_LDFLAGS += \
 	-i $(call QUOTE_ARG,provide __app_name = "$(APP_NAME)") \
 	-i $(call QUOTE_ARG,provide __app_version = "$(APP_VERSION)") \
 	-i $(call QUOTE_ARG,provide __app_desc = $(DESCRIPTION))
-# $(TEMP)
 
 default: installer
 
