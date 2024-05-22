@@ -171,6 +171,8 @@ ___icon:
 	db	$FF, $FF, $FF, $FF, $FF, $FF, $FF, $4A, $4A, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 icon_length := $ - _appMainStart
 	; actual app start
+	ld	sp,($D007FA)	; onSP
+	call	$02103C	; ResetStacks
 	ld	a,$40	; kQuit
 	call	$020170	; NewContext0
 	call	$020D3C ; BufClear
